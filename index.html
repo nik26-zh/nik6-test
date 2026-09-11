@@ -23,6 +23,52 @@
             max-width: 600px;
             margin: 0 auto;
         }
+        .form-group {
+            text-align: left;
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .success-message {
+            display: none;
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -35,9 +81,54 @@
             <li>index.html - главная страница</li>
             <li>style.css - стили CSS</li>
         </ul>
+        <hr>
+        <h2>📞 Оставить заявку</h2>
+        <p>Заполните форму и мы свяжемся с вами</p>
+        <div class="form-group">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="form-group">
+            <label for="contact">Контакт (email или телефон):</label>
+            <input type="text" id="contact" placeholder="email@example.com или +7 (999) 000-00-00" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Сообщение:</label>
+            <textarea id="message" placeholder="Ваше сообщение..." required></textarea>
+        </div>
+        <button onclick="sendForm()">📤 Отправить</button>
+        <button onclick="copyText()">📋 Скопировать текст заявки</button>
+        <div id="successMessage" class="success-message">
+            ✅ Спасибо, заявка готова к отправке!<br>
+            <strong>Текст:</strong><br>
+            <p id="emailBody"></p>
+        </div>
     </div>
     <script>
         document.getElementById('datetime').textContent = new Date().toLocaleString('ru-RU');
+
+        function sendForm() {
+            const name = document.getElementById('name').value;
+            const contact = document.getElementById('contact').value;
+            const message = document.getElementById('message').value;
+
+            const emailBody = `Имя: ${name}%0D%0AКонтакт: ${contact}%0D%0AСообщение: ${message}`;
+
+            window.location.href = `mailto:nikita.zhuk.00.00@gmail.com?subject=Заявка с лендинга&body=${emailBody}`;
+        }
+
+        function copyText() {
+            const name = document.getElementById('name').value;
+            const contact = document.getElementById('contact').value;
+            const message = document.getElementById('message').value;
+
+            const emailBody = `Имя: ${name}\nКонтакт: ${contact}\nСообщение: ${message}`;
+
+            navigator.clipboard.writeText(emailBody).then(function() {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('emailBody').textContent = emailBody;
+            });
+        }
     </script>
 </body>
 </html>
